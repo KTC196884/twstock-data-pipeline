@@ -12,7 +12,7 @@ TWstk_1mk_fetcher/
 │       └── main.py
 ├── tests/
 │   ├── __init__.py
-│   ├── tester.py
+│   └── tester.py
 ├── TWstk_1mk/
 │   └── ... (股票 1mk 文件)
 ├── .gitignore
