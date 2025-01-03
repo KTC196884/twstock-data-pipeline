@@ -1,9 +1,6 @@
 import sys
 import logging
 from pathlib import Path
-import numpy as np
-import pandas as pd
-from datetime import date
 
 from config import (
     TWSTK_INFO_PATH,
