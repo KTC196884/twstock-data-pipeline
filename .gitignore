@@ -1,0 +1,14 @@
+# Python ignore
+__pycache__/
+*.py[cod]
+*.egg-info/
+env/
+.venv/
+.idea/
+*.log
+
+# OS
+.DS_Store
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
