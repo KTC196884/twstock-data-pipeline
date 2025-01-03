@@ -39,12 +39,10 @@ def setup_twstk_directory() -> Path:
     Sets up the directory structure for the project.
     Ensures the twstk_1mk directory exists within the project root.
     """
-    # Define project root
+    # project root: 上一層
     PROJECT_ROOT = Path(__file__).resolve().parents[1]
-    # Define twstk_1mk directory path
     twstk_dir = PROJECT_ROOT / 'twstk_1mk'
 
-    # Create the directory if it doesn't exist
     if not twstk_dir.exists():
         twstk_dir.mkdir(parents=True, exist_ok=True)
         logging.info('twstk_1mk did not exist and has been created')
@@ -55,12 +53,17 @@ def main():
     setup_logging()
     logging.info(f'Starting [{STOCK_IDX_START}]-[{STOCK_IDX_END - 1}] {START_DATE} to {END_DATE}')
     
+    # 建立或確認資料夾存在
     twstk_dir = setup_twstk_directory()
     
+    # 登入 Shioaji
     api = login_shioaji(API_KEY, SECRET_KEY)
+    
+    # 讀取股票代碼清單 & 交易日清單
     twstk_info = load_twstk_info(TWSTK_INFO_PATH)
     tradingday_list = load_tradingday_list(TRADINGDAY_LIST_PATH, START_DATE, END_DATE)
     
+    # 逐檔股票進行資料更新
     for stk_idx in range(STOCK_IDX_START, STOCK_IDX_END):
         if not check_api_limit(api):
             return 1
