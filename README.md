@@ -2,8 +2,8 @@
 
 **twstock-data-pipeline** project 目前涵蓋以下功能：
 1. 下載並建立 `trading_days.parquet`，內容包含台股交易日及市場開盤/收盤時間。
-2. 下載並建立 `twstk_info.parquet`，內容包含台股各上市櫃股票之基本資訊（證券代號、名稱、產業別、上市日等）。
-3. 透過 [Shioaji API](https://github.com/Sinotrade/Shioaji) 下載各股票的 1 分鐘 K 資料，儲存在 `data/twstk_1mk/`。
+2. 下載並建立 `twstk_info.parquet`，內容包含台股中的 *普通股、TDR、ETF、ETN* （不含牛熊證等）之基本資訊（證券代號、名稱、產業別、上市日等）。
+3. 透過 [Shioaji API](https://github.com/Sinotrade/Shioaji) 下載上述股票的 1 minute OHLCV & count，儲存在 `data/twstk_1mk/`。
 
 ---
 
