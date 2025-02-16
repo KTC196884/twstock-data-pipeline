@@ -88,6 +88,6 @@ twstock-data-pipeline/
 ---
 
 ## 聯絡方式
-- 專案作者：KTChen196884
+- 專案作者：KTC196884 (陳冠廷 Jack)
 - Email: adams60304@gmail.com
 
