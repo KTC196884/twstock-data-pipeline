@@ -22,8 +22,7 @@ twstock-data-pipeline/
 │   ├─ test.py
 │   ├─ construct_trading_days.py
 │   ├─ construct_twstk_info.py
-│   ├─ construct_twstk_1mk.py
-│   └─ ...
+│   └─ construct_twstk_1mk.py
 │
 ├─ data/
 │   ├─ trading_days.parquet
