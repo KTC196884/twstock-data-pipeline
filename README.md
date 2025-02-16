@@ -1,51 +1,93 @@
-# TWSTK 1-minute Kbars Fetcher
+# twstock-data-pipeline
 
-使用 [Shioaji](https://sinotrade.github.io) API 來取得台股 1 minute kbars 資料，並儲存為 Parquet 格式。  
-也提供自動檢查遺漏交易日並補齊資料的機制。
+**twstock-data-pipeline** project 目前涵蓋以下功能：
+1. 下載並建立 `trading_days.parquet`，內容包含台股交易日及市場開盤/收盤時間。
+2. 下載並建立 `twstk_info.parquet`，內容包含台股各上市櫃股票之基本資訊（證券代號、名稱、產業別、上市日等）。
+3. 透過 [Shioaji API](https://github.com/Sinotrade/Shioaji) 下載各股票的 1 分鐘 K 資料，儲存在 `data/twstk_1mk/`。
 
-## 專案結構
-```bash
-twstk_1mk_fetcher/
-├── src/
-│   ├── config.py
-│   ├── logger.py
-│   ├── shioaji_client.py
-│   ├── data_handler.py
-│   └── main.py
-├── TWstk_1mk/
-│   └── ... (股票 1mk 文件)
-├── .gitignore
-├── README.md
-└── requirements.txt
+---
+
+## Project 結構
 ```
-- src/：放置程式碼檔案。
-- TWstk_1mk/：存放 1 分線資料的目錄。
-- .gitignore：忽略不必要上傳的檔案。
-- requirements.txt：使用套件清單，可透過 ``pip install -r requirements.txt`` 安裝。
+twstock-data-pipeline/
+│
+├─ .gitignore
+├─ requirements.txt
+├─ README.md
+│
+├─ src/
+│   ├─ __init__.py
+│   ├─ config.py
+│   ├─ main.py
+│   ├─ test.py
+│   ├─ construct_trading_days.py
+│   ├─ construct_twstk_info.py
+│   ├─ construct_twstk_1mk.py
+│   └─ ...
+│
+├─ data/
+│   ├─ trading_days.parquet
+│   ├─ twstk_info.parquet
+│   └─ twstk_1mk/  (此資料夾內放各股 1 分鐘 K)
+│
+└─ logs/
+    └─ twstk_1mk_fetching.log
+```
 
-## 安裝方式
-1. Clone 此 project:
-   ```bash
-   git clone https://github.com/<yourname>/twstk_1mk_fetcher.git
-   cd twstk_1mk_fetcher
-   ```
-2. 建立並啟用虛擬環境（建議使用 ``venv`` 或其他工具）：
-   ```bash
-   python -m venv env
-   source env/bin/activate      # Mac/Linux
-   # or
-   env\Scripts\activate.bat     # Windows
-   ```
-4. 安裝所需套件：
-   ```bash
-   pip install --upgrade pip
-   pip install -r requirements.txt
-   ```
+### 主要程式功能簡介
 
-## 使用說明
-1. 請編輯 ``src/config.py`` 並填入 API_KEY 與 SECRET_KEY，以及想要抓取的日期區間等設定。
-2. 執行程式：
+- **`construct_trading_days.py`**  
+  利用金融市場開休市資料，建立台股交易日清單，並輸出 `trading_days.parquet`。
+
+- **`construct_twstk_info.py`**  
+  透過公開資訊或證交所資料，下載所有上市櫃股票的基本訊息，輸出 `twstk_info.parquet`。
+
+- **`construct_twstk_1mk.py`**  
+  透過 Shioaji API，抓取特定股票在指定日期區間內的 1 分鐘 K 線，儲存至 `data/twstk_1mk/` 資料夾。
+
+- **`main.py`**  
+  串接並執行上述三個模組的主流程，可依需要選擇呼叫哪幾個功能。
+
+- **`test.py`**  
+  對各模組的核心函式進行基本測試，確保程式正常運行。
+
+- **`config.py`**  
+  儲存各種參數設定，例如 API 金鑰、資料輸出路徑、開始/結束日期、需要下載的股票範圍等。
+
+---
+
+## 安裝與使用說明
+
+1. **下載或 Clone 專案**
    ```bash
+   git clone https://github.com/yourname/twstock-data-pipeline.git
+   cd twstock-data-pipeline
+   ```
+2. **安裝套件**
+   - 建議先建立虛擬環境（使用 conda 或 venv 均可。
+   - 接著安裝：
+     ```bash
+     pip install -r requirements.txt
+     ```
+3. **設定參數**
+   打開 ``src/config.py``，填入所需的 API_KEY、SECRET_KEY、資料儲存路徑、下載股票範圍等等。
+4. **執行主程式**
+   ```
    python src/main.py
    ```
-3. 抓取完成之後，可以在 ``TWstk_1mk/`` 下找到對應的 Parquet 檔案。
+   - 預設會執行下載交易日、股票資訊與 1mk 資料的流程。
+   - 下載過程中產生的 parquet 檔案和日誌檔會分別放在 ``data/`` 和 ``logs/`` 目錄下。
+  
+---
+
+## 進階說明 / Roadmap
+- 資料庫整合：未來可考慮將所有資料寫入 PostgreSQL 或其他資料庫。
+- 容器化：使用 Docker 來打包執行環境，方便在不同機器上運行。
+- 自動排程：配合 CI/CD（如 GitHub Actions），定時執行更新。
+
+---
+
+## 聯絡方式
+- 專案作者：KTChen196884
+- Email: adams60304@gmail.com
+
