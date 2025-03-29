@@ -9,7 +9,8 @@ def fetch_twse_tpex_data():
     """
     urls = {
         '上市': 'https://isin.twse.com.tw/isin/C_public.jsp?strMode=2',
-        '上櫃': 'https://isin.twse.com.tw/isin/C_public.jsp?strMode=4'
+        '上櫃': 'https://isin.twse.com.tw/isin/C_public.jsp?strMode=4',
+        '興櫃': 'https://isin.twse.com.tw/isin/C_public.jsp?strMode=5'
     }
     
     all_data = []
@@ -126,7 +127,8 @@ def get_twstk_info() -> None:
     }
     market_order_map = {
         '上市': 1,
-        '上櫃': 2
+        '上櫃': 2,
+        '興櫃': 3
     }
     df['type_order'] = df['種類'].map(type_order_map).fillna(999)
     df['market_order'] = df['交易板'].map(market_order_map).fillna(999)
@@ -159,6 +161,3 @@ def get_twstk_info() -> None:
 
 if __name__ == "__main__":
     get_twstk_info()
-    
-    
-    
