@@ -70,7 +70,7 @@ twstock-data-pipeline/
 
 1. **下載或 Clone 專案**
    ```bash
-   git clone https://github.com/yourname/twstock-data-pipeline.git
+   git clone https://github.com/KTC196884/twstock-data-pipeline.git
    cd twstock-data-pipeline
    ```
 2. **安裝套件**
